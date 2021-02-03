@@ -67,7 +67,86 @@ function renderRides(ridesArray) {
   }
 }
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', async function() {
+  let url = 'https://kiei451.com/api/rides.json'
+  let response = await fetch(url)
+  let json = await response.json()
+  // console.log(json)
+  // https://kiei451.com/api/rides.json
   // YOUR CODE
+  let allButton = document.querySelector('#all-filter')
+  allButton.addEventListener('click', function(event) {
+    console.log('"All rides" has been selected')
+    document.querySelector('.rides').innerHTML= ""
+    // console.log(json)
+    renderRides(json)
+  })
+  let nooberPoolButton = document.querySelector('#noober-pool-filter')
+  nooberPoolButton.addEventListener('click', function(event) {
+    console.log('"Noober Pool" has been selected')
+    // console.log(json)
+    document.querySelector('.rides').innerHTML = ""
+    let ridestoPrint = []
+    let countrides = 0
+    for (let i = 0; i < json.length; i++) {
+      if (json[i].length > 1) {
+        ridestoPrint.push(json[i])
+        countrides ++ 
+      }
+    }
+    console.log(`Total Noober Pool rides: ${countrides}`)
+    renderRides(ridestoPrint)
+  })
+  let nooberPurpleButton = document.querySelector('#noober-purple-filter')
+  nooberPurpleButton.addEventListener('click', function(event) {
+    console.log('"Noober Purple" has been selected')
+    document.querySelector('.rides').innerHTML = ""
+    let ridestoPrint = []
+    let countrides = 0
+    // console.log(json[0])
+    // console.log(json[0][0])
+    for (let i = 0; i < json.length; i++) {
+      // console.log(json[i][0].purpleRequested)
+      if (json[i][0].purpleRequested) {
+        ridestoPrint.push(json[i])
+        countrides ++ 
+      }
+    }
+    console.log(`Total Noober Purple rides: ${countrides}`)
+    renderRides(ridestoPrint)
+  })
+  let nooberXLButton = document.querySelector('#noober-xl-filter')
+  nooberXLButton.addEventListener('click', function(event) {
+    console.log('"Noober XL" has been selected')
+    document.querySelector('.rides').innerHTML = ""
+    let ridestoPrint = []
+    let countrides = 0
+    // console.log(json[0])
+    // console.log(json[0][0])
+    for (let i = 0; i < json.length; i++) {
+      // console.log(json[i][0].purpleRequested)
+      if (json[i][0].numberOfPassengers > 3 && !json[i][0].purpleRequested) {
+        ridestoPrint.push(json[i])
+        countrides ++ 
+      }
+    }
+    console.log(`Total Noober XL rides: ${countrides}`)
+    renderRides(ridestoPrint)
+  })
+  let nooberXButton = document.querySelector('#noober-x-filter')
+  nooberXButton.addEventListener('click', function(event) {
+    console.log('"Noober X" has been selected')
+    document.querySelector('.rides').innerHTML = ""
+    let ridestoPrint = []
+    let countrides = 0
+    for (let i = 0; i < json.length; i++) {
+      if (json[i].length == 1 && json[i][0].numberOfPassengers < 4 && !json[i][0].purpleRequested) {
+        ridestoPrint.push(json[i])
+        countrides ++ 
+      }
+    }
+    console.log(`Total Noober X rides: ${countrides}`)
+    renderRides(ridestoPrint)
+  })
 })
 
